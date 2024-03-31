@@ -1,0 +1,388 @@
+1.Write a program to implement stack and queue operation?
+Code:
+class Stack:
+    def __init__(self):
+        self.items = []
+    def push(self, item):
+        self.items.append(item)
+    def pop(self):
+        if not self.is_empty():
+            return self.items.pop()
+    def is_empty(self):
+        return len(self.items) == 0
+    def size(self):
+        return len(self.items)
+    def item(self):
+        return self.items
+
+class Queue:
+    def __init__(self):
+        self.items = []
+    def enqueue(self, item):
+        self.items.append(item)
+    def dequeue(self):
+        if not self.is_empty():
+            return self.items.pop(0)
+    def is_empty(self):
+        return len(self.items) == 0
+    def size(self):
+        return len(self.items)
+    def item(self):
+        return self.items
+
+
+# Test the Stack and Queue classes
+stack = Stack()
+stack.push("A")
+stack.push("B")
+stack.push("C")
+print(f"Stack elements are:",stack.item())
+print(f"Stack Pop: {stack.pop()}")  # Should print B
+print(f"Remaining stack elements are:",stack.item())
+print()
+
+queue = Queue()
+queue.enqueue("A")
+queue.enqueue("B")
+queue.enqueue("C")
+print(f"Queue elements are:",queue.item())
+print(f"Queue Dequeue: {queue.dequeue()}")  # Should print A
+print(f"Remainning queue elements are:",queue.item())
+
+
+
+
+2. Write a program to implement linear and binary search operation?
+Code:
+def linear_search(arr, x):
+    for i in range(len(arr)):
+        if arr[i] == x:
+            return i
+    return -1
+
+def binary_search(arr, low, high, x):
+    if high >= low:
+        mid = (high + low) // 2
+        if arr[mid] == x:
+            return mid
+        elif arr[mid] > x:
+            return binary_search(arr, low, mid - 1, x)
+        else:
+            return binary_search(arr, mid + 1, high, x)
+    else:
+        return -1
+
+# Test the functions with an example list and a value to search for
+example_list = [2, 3, 4, 10, 40]
+value_to_find = 10
+
+# Linear Search
+index = linear_search(example_list,value_to_find)
+print(f"Linear Search: {value_to_find} found at index {index}")
+
+# Binary Search
+index = binary_search(example_list ,0 ,len(example_list)-1,value_to_find)
+print(f"Binary Search: {value_to_find} found at index {index}")
+
+
+
+
+3.Write a program to implement sort elements using bubble sort and merge sort?
+Code:
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+                swapped = True
+        if not swapped:
+            break
+    return arr
+
+def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr)//2
+        L = arr[:mid]
+        R = arr[mid:]
+
+        merge_sort(L)
+        merge_sort(R)
+
+        i = j = k = 0
+
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+            
+    return arr
+
+# Test the functions with a list of numbers 
+numbers_to_sort_bubble_sort_method= [64,34,25,12,22,11,90]
+
+numbers_to_sort_merge_sort_method= [64,34,25,12,22,11,90]
+
+print("Bubble Sort:", bubble_sort(numbers_to_sort_bubble_sort_method))
+print("Merge Sort:", merge_sort(numbers_to_sort_merge_sort_method))
+
+
+
+
+4.Write a program to implement linear regression algorithm.
+Code:
+# Importing the required libraries
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Creating the dataset
+x = np.array([1, 2, 3, 10, 5])
+y = np.array([2, 3, 4, 5, 6])
+
+# Calculating the mean of x and y
+x_mean = np.mean(x)
+y_mean = np.mean(y)
+
+# Calculating the slope and intercept
+numerator = np.sum((x - x_mean) * (y - y_mean))
+denominator = np.sum((x - x_mean) ** 2)
+slope = numerator / denominator
+intercept = y_mean - slope * x_mean
+
+# Predicting the values
+y_pred = slope * x + intercept
+
+# Plotting the results
+plt.scatter(x, y)
+plt.plot(x, y_pred, color='red')
+plt.show()
+
+
+
+
+5.Write a program to implement logistic regression algorithm.
+Code:
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Sigmoid function (logistic function)
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+# Cost function (log loss)
+def cost_function(X, y, theta):
+    m = len(y)
+    h = sigmoid(X.dot(theta))
+    J = -1/m * (y.T.dot(np.log(h)) + (1-y).T.dot(np.log(1-h)))
+    return J
+
+# Gradient descent
+def gradient_descent(X, y, theta, alpha, num_iterations):
+    m = len(y)
+    for i in range(num_iterations):
+        h = sigmoid(X.dot(theta))
+        error = h - y
+        delta = 1/m * X.T.dot(error)
+        theta -= alpha * delta
+    return theta
+
+# Generate sample data
+X = np.array([[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]])
+y = np.array([0, 0, 1, 1, 1])
+
+# Initialize parameters
+theta = np.zeros(2)
+alpha = 0.1
+num_iterations = 1000
+
+# Train the model
+theta = gradient_descent(X, y, theta, alpha, num_iterations)
+
+# Predict using the trained model
+x_test = np.linspace(0, 6, 100)
+X_test = np.c_[np.ones(100), x_test]  # Add a column of ones for the intercept term
+y_pred = sigmoid(X_test.dot(theta))
+
+# Plot the decision boundary
+plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 1], y, color='blue', marker='o', label='Training data')
+plt.plot(x_test, y_pred, color='red', label='Decision boundary')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title('Logistic Regression')
+plt.legend()
+plt.show()
+
+
+
+
+6.Write a program to implement the naïve Bayesian classification algorithm and finding its accuracy.
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn import metrics
+
+# Generate sample data (replace this with your dataset)
+np.random.seed(42)
+X = np.random.rand(100, 2)
+y = (X[:, 0] + X[:, 1] > 1).astype(int)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the Naive Bayes classifier
+classifier = GaussianNB()
+classifier.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = classifier.predict(X_test)
+
+# Calculate accuracy
+accuracy = metrics.accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+# Create a scatter plot of the test set and highlight correct and incorrect predictions
+plt.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap='viridis', marker='o', label='Actual')
+plt.scatter(X_test[:, 0], X_test[:, 1], c=y_pred, cmap='viridis', marker='x', label='Predicted', s=100, linewidths=2)
+
+plt.title("Naive Bayes Classification")
+plt.xlabel("Feature 1")
+plt.ylabel("Feature 2")
+plt.legend()
+plt.show()
+
+
+
+
+7.Write a program to implement the K-nearest neighbor algorithm and finding its accuracy.
+Code:
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import datasets
+from sklearn.metrics import accuracy_score
+
+# Load the iris dataset (you can replace it with your own dataset)
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Implement KNN classifier
+def knn_classifier(k):
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(X_train, y_train)
+    y_pred = knn.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    return accuracy
+
+# Calculate accuracy for different values of k
+k_values = list(range(1, 11))
+accuracies = []
+
+for k in k_values:
+    accuracies.append(knn_classifier(k))
+
+# Plot the accuracy graph
+plt.plot(k_values, accuracies, marker='o')
+plt.title('KNN Classifier Accuracy for Different Values of k')
+plt.xlabel('k (Number of Neighbors)')
+plt.ylabel('Accuracy')
+plt.grid(True)
+plt.show()
+
+
+
+
+8.Write a program to implement the decision tree algorithm and finding its accuracy.
+Code:
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import accuracy_score
+
+# Load the Iris dataset
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a decision tree classifier
+clf = DecisionTreeClassifier(random_state=42)
+
+# Train the classifier
+clf.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = clf.predict(X_test)
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Visualize the decision tree
+plt.figure(figsize=(12, 8))
+plot_tree(clf, filled=True, feature_names=iris.feature_names, class_names=iris.target_names, rounded=True)
+plt.show()
+
+
+
+
+9.Write a program to implement the K-means clustering algorithm and finding its accuracy.
+Code:
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+from sklearn.metrics import accuracy_score
+
+# Generate random data for clustering
+np.random.seed(42)
+X, y_true = make_blobs(n_samples=300, centers=4, random_state=42, cluster_std=0.60)
+
+# Apply K-means clustering
+kmeans = KMeans(n_clusters=4, random_state=42)
+kmeans.fit(X)
+y_kmeans = kmeans.predict(X)
+
+# Calculate accuracy (Note: Labels might be assigned differently by KMeans, so we need to match the clusters)
+cluster_mapping = {0: np.argmax(np.bincount(y_kmeans[y_true == 0])),
+                   1: np.argmax(np.bincount(y_kmeans[y_true == 1])),
+                   2: np.argmax(np.bincount(y_kmeans[y_true == 2])),
+                   3: np.argmax(np.bincount(y_kmeans[y_true == 3]))}
+
+y_mapped = np.vectorize(cluster_mapping.get)(y_kmeans)
+accuracy = accuracy_score(y_true, y_mapped)
+
+# Plot the results
+plt.figure(figsize=(10, 6))
+plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, cmap='viridis', s=50, alpha=0.8, label='Clusters')
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=200, c='red', marker='X', label='Centroids')
+plt.title(f'K-means Clustering\nAccuracy: {accuracy:.2f}')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.legend()
+plt.show()
