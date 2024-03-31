@@ -386,3 +386,258 @@ plt.xlabel('Feature 1')
 plt.ylabel('Feature 2')
 plt.legend()
 plt.show()
+
+
+
+
+10.Library System
+class LibraryItem:
+    def __init__(self, title, author, item_type):
+        self.title = title
+        self.author = author
+        self.item_type = item_type
+
+    def display_info(self):
+        print(f"Title: {self.title}")
+        print(f"Author: {self.author}")
+        print(f"Type: {self.item_type}")
+
+
+class Library:
+    def __init__(self):
+        self.catalog = []
+
+    def add_item(self, item):
+        self.catalog.append(item)
+
+    def display_catalog(self):
+        for index, item in enumerate(self.catalog, start=1):
+            print(f"{index}.")
+            item.display_info()
+
+    def search_item(self, title):
+        found_items = [item for item in self.catalog if item.title.lower() == title.lower()]
+        return found_items
+
+
+def main():
+    library = Library()
+
+    while True:
+        print("\nLibrary Management System")
+        print("1. Add Book")
+        print("2. Add Journal")
+        print("3. Display Catalog")
+        print("4. Search Catalog")
+        print("5. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            title = input("Enter book title: ")
+            author = input("Enter book author: ")
+            book = LibraryItem(title, author, "Book")
+            library.add_item(book)
+            print("Book added successfully!")
+
+        elif choice == "2":
+            title = input("Enter journal title: ")
+            author = input("Enter journal author: ")
+            journal = LibraryItem(title, author, "Journal")
+            library.add_item(journal)
+            print("Journal added successfully!")
+
+        elif choice == "3":
+            if not library.catalog:
+                print("No items in catalog.")
+            else:
+                print("Library Catalog:")
+                library.display_catalog()
+
+        elif choice == "4":
+            search_title = input("Enter the title to search: ")
+            found_items = library.search_item(search_title)
+            if not found_items:
+                print("No matching items found.")
+            else:
+                print("Matching items found:")
+                for item in found_items:
+                    item.display_info()
+
+        elif choice == "5":
+            print("Exiting program. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Please enter a valid option.")
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+11.Dictionary
+def display_menu():
+    print("Dictionary Operations:")
+    print("1. Add Item")
+    print("2. Delete Item")
+    print("3. Modify Item")
+    print("4. Display Dictionary")
+    print("5. Exit")
+
+
+def add_item(dictionary):
+    key = input("Enter key: ")
+    value = input("Enter value: ")
+    dictionary[key] = value
+    print("Item added successfully!")
+
+
+def delete_item(dictionary):
+    key = input("Enter key to delete: ")
+    if key in dictionary:
+        del dictionary[key]
+        print("Item deleted successfully!")
+    else:
+        print("Key not found in dictionary.")
+
+
+def modify_item(dictionary):
+    key = input("Enter key to modify: ")
+    if key in dictionary:
+        value = input("Enter new value: ")
+        dictionary[key] = value
+        print("Item modified successfully!")
+    else:
+        print("Key not found in dictionary.")
+
+
+def display_dictionary(dictionary):
+    print("Dictionary:")
+    for key, value in dictionary.items():
+        print(f"{key}: {value}")
+
+
+def main():
+    my_dictionary = {}
+
+    while True:
+        display_menu()
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            add_item(my_dictionary)
+
+        elif choice == "2":
+            delete_item(my_dictionary)
+
+        elif choice == "3":
+            modify_item(my_dictionary)
+
+        elif choice == "4":
+            display_dictionary(my_dictionary)
+
+        elif choice == "5":
+            print("Exiting program. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Please enter a valid option.")
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+12.Random integer
+Random integer
+import random
+
+# Generate a list of 10 random integers
+random_integers = [random.randint(1, 100) for _ in range(10)]
+
+# Create lists for odd and even values
+odd_values = [num for num in random_integers if num % 2 != 0]
+even_values = [num for num in random_integers if num % 2 == 0]
+
+# Print the original list and the lists for odd and even values
+print("Original List of Random Integers:", random_integers)
+print("Odd Values:", odd_values)
+print("Even Values:", even_values)
+
+
+
+
+13.User defined queue
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def enqueue(self, item):
+        self.items.append(item)
+
+    def dequeue(self):
+        if not self.is_empty():
+            return self.items.pop(0)
+        else:
+            print("Queue is empty.")
+            return None
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def size(self):
+        return len(self.items)
+
+    def display(self):
+        if not self.is_empty():
+            print("Queue:")
+            for item in self.items:
+                print(item)
+        else:
+            print("Queue is empty.")
+
+
+def main():
+    my_queue = Queue()
+
+    while True:
+        print("\nQueue Operations:")
+        print("1. Enqueue")
+        print("2. Dequeue")
+        print("3. Display")
+        print("4. Size")
+        print("5. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            item = input("Enter item to enqueue: ")
+            my_queue.enqueue(item)
+            print(f"{item} enqueued successfully.")
+
+        elif choice == "2":
+            dequeued_item = my_queue.dequeue()
+            if dequeued_item is not None:
+                print(f"Dequeued item: {dequeued_item}")
+
+        elif choice == "3":
+            my_queue.display()
+
+        elif choice == "4":
+            print(f"Size of the queue: {my_queue.size()}")
+
+        elif choice == "5":
+            print("Exiting program. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Please enter a valid option.")
+
+
+if __name__ == "__main__":
+    main()
+
+
